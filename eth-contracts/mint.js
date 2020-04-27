@@ -5,7 +5,7 @@ const fs = require('fs')
 const web3 = require('web3')
 const MNEMONIC = fs.readFileSync(".secret").toString().trim();
 const INFURA_KEY = "558db693cc5947a19511e2d7925b67b9"
-const NFT_CONTRACT_ADDRESS = "0x4fE783574982EE3Dc29b3ABEDE854c09CC7F3427"
+const NFT_CONTRACT_ADDRESS = "0x8f7ACDf9ADDD76A3E386EC5e1eDcC97BA35EDf95"
 const OWNER_ADDRESS = "0x627306090abaB3A6e1400e9345bC60c78a8BEf57"
 const TO_ADDRESS = "0x96289609CB9f4A08d664E7462CfE9c345335c670"
 const NETWORK = "rinkeby"
@@ -311,29 +311,6 @@ const NFT_ABI = [
     "constant": false,
     "inputs": [
       {
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "name": "tokenId",
-        "type": "uint256"
-      }
-    ],
-    "name": "mint",
-    "outputs": [
-      {
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
         "name": "from",
         "type": "address"
       },
@@ -369,37 +346,6 @@ const NFT_ABI = [
     ],
     "payable": false,
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "a",
-        "type": "uint256[2]"
-      },
-      {
-        "name": "b",
-        "type": "uint256[2][2]"
-      },
-      {
-        "name": "c",
-        "type": "uint256[2]"
-      },
-      {
-        "name": "input",
-        "type": "uint256[2]"
-      }
-    ],
-    "name": "verifyTx",
-    "outputs": [
-      {
-        "name": "r",
-        "type": "bool"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -578,65 +524,10 @@ const NFT_ABI = [
     "type": "function"
   },
   {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "name": "a",
-        "type": "uint256[2]"
-      },
-      {
-        "indexed": false,
-        "name": "b",
-        "type": "uint256[2][2]"
-      },
-      {
-        "indexed": false,
-        "name": "c",
-        "type": "uint256[2]"
-      },
-      {
-        "indexed": false,
-        "name": "input",
-        "type": "uint256[2]"
-      }
-    ],
-    "name": "SolutionAdded",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "name": "a",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "name": "b",
-        "type": "string"
-      }
-    ],
-    "name": "TestEvent",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "name": "s",
-        "type": "string"
-      }
-    ],
-    "name": "Verified",
-    "type": "event"
+    "inputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "constructor"
   },
   {
     "anonymous": false,
@@ -746,90 +637,6 @@ const NFT_ABI = [
     "type": "event"
   },
   {
-    "constant": true,
-    "inputs": [
-      {
-        "name": "key",
-        "type": "bytes32"
-      }
-    ],
-    "name": "doesSolutionExist",
-    "outputs": [
-      {
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "name": "a",
-        "type": "uint256[2]"
-      },
-      {
-        "name": "b",
-        "type": "uint256[2][2]"
-      },
-      {
-        "name": "c",
-        "type": "uint256[2]"
-      },
-      {
-        "name": "input",
-        "type": "uint256[2]"
-      }
-    ],
-    "name": "createKey",
-    "outputs": [
-      {
-        "name": "",
-        "type": "bytes32"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "pure",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "name": "a",
-        "type": "uint256[2]"
-      },
-      {
-        "name": "b",
-        "type": "uint256[2][2]"
-      },
-      {
-        "name": "c",
-        "type": "uint256[2]"
-      },
-      {
-        "name": "input",
-        "type": "uint256[2]"
-      }
-    ],
-    "name": "addSolution",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
     "constant": false,
     "inputs": [
       {
@@ -839,26 +646,15 @@ const NFT_ABI = [
       {
         "name": "tokenId",
         "type": "uint256"
-      },
-      {
-        "name": "a",
-        "type": "uint256[2]"
-      },
-      {
-        "name": "b",
-        "type": "uint256[2][2]"
-      },
-      {
-        "name": "c",
-        "type": "uint256[2]"
-      },
-      {
-        "name": "input",
-        "type": "uint256[2]"
       }
     ],
-    "name": "mintNFT",
-    "outputs": [],
+    "name": "mint",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool"
+      }
+    ],
     "payable": false,
     "stateMutability": "nonpayable",
     "type": "function"
@@ -873,14 +669,14 @@ async function main() {
 
     if (NFT_CONTRACT_ADDRESS) {
         const nftContract = new web3Instance.eth.Contract(NFT_ABI, NFT_CONTRACT_ADDRESS, { gasLimit: "1000000" })
-        // for (var i = 0; i < NUM_CREATURES; i++) {
-        //     const result = await nftContract.methods.mintTo(OWNER_ADDRESS).send({ from: OWNER_ADDRESS });
-        //     console.log("Minted creature. Transaction: " + result.transactionHash)
-        // }
-        proofs.forEach( async function(proof) {
-          let result = await nftContract.methods.mintNFT(TO_ADDRESS, proof.tokenId, proof.proof.a, proof.proof.b, proof.proof.c, proof.inputs).send({from: OWNER_ADDRESS});
-          console.log(result.transactionHash);
-        });
+        for (var i = 0; i < 10; i++) {
+            const result = await nftContract.methods.mint(TO_ADDRESS, i+1).send({ from: OWNER_ADDRESS });
+            console.log(result.transactionHash);
+        }
+        // proofs.forEach( async function(proof) {
+        //   let result = await nftContract.methods.mintNFT(TO_ADDRESS, proof.tokenId, proof.proof.a, proof.proof.b, proof.proof.c, proof.inputs).send({from: OWNER_ADDRESS});
+        //   console.log(result.transactionHash);
+        // });
     }
 }
 
