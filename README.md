@@ -567,7 +567,8 @@ Contract ABI:<br>
     "stateMutability": "nonpayable",
     "type": "function"
   }
-]`
+]`<br><br>
+Solution Square Verifier Contract deployed at https://rinkeby.etherscan.io/address/0x71e66a385e955ba881854d491609650d9d5c3bcb
 
 # Project Resources
 
