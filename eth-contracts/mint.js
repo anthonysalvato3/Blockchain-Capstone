@@ -5,9 +5,10 @@ const fs = require('fs')
 const web3 = require('web3')
 const MNEMONIC = fs.readFileSync(".secret").toString().trim();
 const INFURA_KEY = "558db693cc5947a19511e2d7925b67b9"
-const NFT_CONTRACT_ADDRESS = "0x8f7ACDf9ADDD76A3E386EC5e1eDcC97BA35EDf95"
+const NFT_CONTRACT_ADDRESS = "0xb69C92A8e6457E5255b774808cFeC7eC0d1084A4"
 const OWNER_ADDRESS = "0x627306090abaB3A6e1400e9345bC60c78a8BEf57"
 const TO_ADDRESS = "0x96289609CB9f4A08d664E7462CfE9c345335c670"
+const OTHER_ADDRESS = "0xf17f52151EbEF6C7334FAD080c5704D77216b732";
 const NETWORK = "rinkeby"
 const proofs = [{
   "proof": {
@@ -136,6 +137,20 @@ const NFT_ABI = [
   },
   {
     "constant": true,
+    "inputs": [],
+    "name": "name",
+    "outputs": [
+      {
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
     "inputs": [
       {
         "name": "tokenId",
@@ -169,34 +184,6 @@ const NFT_ABI = [
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "getSymbol",
-    "outputs": [
-      {
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "getName",
-    "outputs": [
-      {
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -410,6 +397,20 @@ const NFT_ABI = [
     "type": "function"
   },
   {
+    "constant": true,
+    "inputs": [],
+    "name": "symbol",
+    "outputs": [
+      {
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "constant": false,
     "inputs": [
       {
@@ -455,8 +456,13 @@ const NFT_ABI = [
   },
   {
     "constant": true,
-    "inputs": [],
-    "name": "getBaseTokenURI",
+    "inputs": [
+      {
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "tokenURI",
     "outputs": [
       {
         "name": "",
@@ -469,13 +475,8 @@ const NFT_ABI = [
   },
   {
     "constant": true,
-    "inputs": [
-      {
-        "name": "tokenId",
-        "type": "uint256"
-      }
-    ],
-    "name": "tokenURI",
+    "inputs": [],
+    "name": "baseTokenURI",
     "outputs": [
       {
         "name": "",
@@ -662,13 +663,15 @@ const NFT_ABI = [
 ]
 
 async function main() {
-    const provider = new HDWalletProvider(MNEMONIC, `https://${NETWORK}.infura.io/v3/${INFURA_KEY}`)
+    const provider = new HDWalletProvider(MNEMONIC, `https://${NETWORK}.infura.io/v3/${INFURA_KEY}`, 0, 10)
     const web3Instance = new web3(
         provider
     )
+    // console.log("ACCOUNTS: " + await web3Instance.eth.getAccounts());
 
     if (NFT_CONTRACT_ADDRESS) {
-        const nftContract = new web3Instance.eth.Contract(NFT_ABI, NFT_CONTRACT_ADDRESS, { gasLimit: "1000000" })
+        const nftContract = new web3Instance.eth.Contract(NFT_ABI, NFT_CONTRACT_ADDRESS);
+        const gasPrice = web3.utils.toHex(web3Instance.utils.toWei("20", "gwei"));
         for (var i = 0; i < 10; i++) {
             const result = await nftContract.methods.mint(TO_ADDRESS, i+1).send({ from: OWNER_ADDRESS });
             console.log(result.transactionHash);
@@ -677,6 +680,10 @@ async function main() {
         //   let result = await nftContract.methods.mintNFT(TO_ADDRESS, proof.tokenId, proof.proof.a, proof.proof.b, proof.proof.c, proof.inputs).send({from: OWNER_ADDRESS});
         //   console.log(result.transactionHash);
         // });
+        // const result = await nftContract.methods.mint(OTHER_ADDRESS, 11).send({ from: OWNER_ADDRESS });
+        // const gasEstimate = await nftContract.methods.transferFrom(OTHER_ADDRESS, OWNER_ADDRESS, 11).estimateGas({from: OTHER_ADDRESS});
+        // console.log(gasEstimate);
+        // console.log(result2);
     }
 }
 
